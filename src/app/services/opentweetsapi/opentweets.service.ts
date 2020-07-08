@@ -32,14 +32,14 @@ export class OpentweetsService {
   }
   /**
    *
-   * Create new Acquirer
+   * Create new tweet
    */
-  public create(acquirer: OpenTweet): Observable<OpenTweet> {
+  public create(tweet: OpenTweet): Observable<OpenTweet> {
     let path = `${this.BASE_URL}/feed`;
-    // verify required parameter 'acquirer' is set
-    if (acquirer === undefined) {
+    // verify required parameter 'tweet' is set
+    if (tweet === undefined) {
       throw new Error(
-        'Missing required parameter acquirer when calling create'
+        'Missing required parameter tweet when calling create'
       );
     }
     path += '?';
@@ -48,15 +48,15 @@ export class OpentweetsService {
     headers = headers.append('Accept', 'application/json');
     headers = headers.append('Content-Type', 'application/json');
 
-    return this.http.post<OpenTweet>(path, acquirer, {
+    return this.http.post<OpenTweet>(path, tweet, {
       observe: 'body',
       headers: headers,
     });
   }
   /**
    *
-   * Get an Acquirer by ID
-   * @param id The ID of the Acquirer
+   * Get an tweet by ID
+   * @param id The ID of the tweet
    */
   public get(id: string): Observable<OpenTweet> {
     let path = `${this.BASE_URL}/feed/{id}`.replace(
