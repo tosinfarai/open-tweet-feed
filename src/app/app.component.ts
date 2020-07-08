@@ -35,7 +35,7 @@ export class AppComponent {
   getUser(): any {
     try {
       let username = localStorage.getItem('name')
-      return username || "Anonymous";
+      return username;
     } catch{
       err => console.log(err)
     }
@@ -49,11 +49,11 @@ export class AppComponent {
   }
 
   onSendClick(): void {
-    let {tweetForm : { value: { tweet }}} =this;
-
+    let {tweetForm : { value: { tweet, name }}} =this;
+    
     let { user } = this
     let tweetObj: OpenTweet = {
-      name: user,
+      name: name || "Anonymous",
       tweet: tweet
     }
     this.tweetService.create(tweetObj).subscribe( response => {
@@ -65,7 +65,11 @@ export class AppComponent {
     this.user = this.getUser();
 
     this.tweetForm = this.fb.group({
-      tweet: ['', [Validators.required]]
+      tweet: ['', [Validators.required]],
+      name: ['']
+    })
+    this.tweetForm.patchValue({
+      name: this.user || ""
     })
   }
 }
