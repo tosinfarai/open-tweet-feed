@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OpentweetsService } from  './services/opentweetsapi/opentweets.service';
-import { OpenTweet } from './shared/interfaces/opentweet';
+import { OpenTweets } from './shared/interfaces/opentweets';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +8,12 @@ import { OpenTweet } from './shared/interfaces/opentweet';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  tweets: OpenTweet[];
+  tweets: OpenTweets;
   constructor(private tweetService: OpentweetsService ){}
   title = 'open-tweet';
   ngOnInit(): void {
     this.tweetService.getAll().subscribe(response => {
-      console.log(response)
+      this.tweets = response
     })
   }
 }
