@@ -1,0 +1,40 @@
+<div
+  class="w-full bg-blue-300 flex items-center justify-center"
+  style="min-height: 100vh;"
+>
+  <div
+    class="w-11/12 md:w-2/5 bg-white rounded p-4 relative"
+    style="height: 90vh;"
+  >
+  <button (click)="getAll()" class="absolute bottom-0 right-0 m-2 text-lg text-grey-600" style="z-index: 1000;" >
+    &#8635; <span class="text-sm font-light">Refresh</span>
+  </button>
+    <div
+      class="overflow-y-scroll p-2 w-full absolute left-0"
+      style="height: 70vh;"
+    >
+      <p *ngFor="let tweet of tweets" class="text-gray-700 w-full my-2 bg-gray-100 rounded p-2">
+        {{ tweet.tweet }} <span class="text-xs font-light text-grey-400">- {{ tweet.name }}</span>
+      </p>
+    </div>
+    <form [formGroup]="tweetForm" (ngSubmit)="onSendClick()">
+      <div class="w-full absolute bottom-0 left-0 p-2">
+        <textarea
+          type="text"
+          formControlName="tweet"
+          class="border border-grey-600 w-full py-2 px-4 text-xs rounded"
+          style="height: 10vh;"
+          placeholder="Enter Tweet"
+        ></textarea>
+        <button
+          type="submit"
+          [ngClass]="{ 'bg-blue-300': !tweetForm.valid }"
+          class="bg-paleBlue p-2 text-white rounded w-32"
+          [disabled]="!tweetForm.valid"
+        >
+          Tweet
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
