@@ -9,7 +9,7 @@ import { OpenTweets } from '../../shared/interfaces/opentweets';
   providedIn: 'root'
 })
 export class OpentweetsService {
-  BASE_URL:string = "http://localhost:4200/api"
+  BASE_URL:string = "https://open-tweet.herokuapp.com"
 
   constructor(public http: HttpClient) {}
 
