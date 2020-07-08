@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+
+import {
+  FormBuilder,
+  FormControlName,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+
 import { OpentweetsService } from  './services/opentweetsapi/opentweets.service';
 import { OpenTweets } from './shared/interfaces/opentweets';
 import { OpenTweet } from './shared/interfaces/opentweet';
@@ -10,9 +18,11 @@ import { OpenTweet } from './shared/interfaces/opentweet';
 })
 export class AppComponent {
   tweets: OpenTweets;
-  user: string = "Anonymous";
-  constructor(private tweetService: OpentweetsService ){}
+  tweetForm: FormGroup;
+  user: string;
+  constructor(private tweetService: OpentweetsService, private fb: FormBuilder ){}
   title = 'open-tweet';
+
 
   getAll(): void {
     this.tweetService.getAll().subscribe(response => {
@@ -25,7 +35,7 @@ export class AppComponent {
   getUser(): any {
     try {
       let username = localStorage.getItem('name')
-      return username;
+      return username || "Anonymous";
     } catch{
       err => console.log(err)
     }
@@ -38,19 +48,24 @@ export class AppComponent {
     }
   }
 
-  onSendClick(event): void {
-    let {value} = event.target;
+  onSendClick(): void {
+    let {tweetForm : { value: { tweet }}} =this;
+
     let { user } = this
     let tweetObj: OpenTweet = {
       name: user,
-      tweet: value
+      tweet: tweet
     }
     this.tweetService.create(tweetObj).subscribe( response => {
-      this.setTweets(response);
+      this.getAll();
     })
   }
   ngOnInit(): void {
     this.getAll();
     this.user = this.getUser();
+
+    this.tweetForm = this.fb.group({
+      tweet: ['', [Validators.required]]
+    })
   }
 }
